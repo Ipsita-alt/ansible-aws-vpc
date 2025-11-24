@@ -15,8 +15,6 @@
         tenancy: default
         state : "{{state}}"
       register: vpcout
-<<<<<<< HEAD
-=======
 
     - debug: 
         var: vpcout
@@ -32,4 +30,3 @@
         resourse_tags: 
           Name: vprofile-pubsub1
       register: pubsub1_out
->>>>>>> abde3db (vpc subnet set up)
