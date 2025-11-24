@@ -19,4 +19,4 @@ Zone1: ap-south-1a
 Zone2: ap-south-1b
 Zone3: ap-south-1c
 
-state: Present
+state: present
