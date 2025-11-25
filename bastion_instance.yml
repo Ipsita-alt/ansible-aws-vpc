@@ -27,7 +27,7 @@
       ec2_group:
         name: vprofile-bastion-host-sg
         description: Security Group for Vprofile Bastion Host
-        vpc_id: "{{ vpc_id }}"
+        vpc_id: "{{ vpcid }}"
         region: "{{ region }}"
         rules:
           - proto: tcp

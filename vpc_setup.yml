@@ -182,6 +182,6 @@
           igwid: {{ igw_out.gateway_id }}
           pubRTid: {{ pubRT_out.route_table.id }}
           NATGWid: {{ NATGW_out.nat_gateway_id }}
-          privRTid: {{ privRT_out.route_table.id }}
+          privRTid: {{ privRT_out.route_tableid }}
         dest: vars/output_vars
 
