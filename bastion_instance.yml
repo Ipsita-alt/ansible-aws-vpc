@@ -21,7 +21,6 @@
         content: "{{ keypair_out.key.private_key }}"
         dest: "./bastion-key.pem"
         mode: '0600'
-        region: "{{ region }}"
       when: keypair_out.changed
     
     - name: create security group for bastion host
