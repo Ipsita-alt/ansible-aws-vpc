@@ -16,7 +16,7 @@
         state: present
       register: keypair_out
 
-    - name: Save private key inot file bastion-key.pem
+    - name: Save private key in file bastion-key.pem
       copy:
         content: "{{ keypair_out.key.private_key }}"
         dest: "./bastion-key.pem"
