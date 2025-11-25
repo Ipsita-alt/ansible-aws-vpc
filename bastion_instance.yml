@@ -38,13 +38,13 @@
         register: bastion_sg_out
 
     - name: Launch Bastion Host Instance
-      ec2:
+      amazon.aws.ec2_instance:
         key_name: vprofile-bastion-key
         instance_type: t2.micro
         image: "{{ bastion_ami }}"
         wait: yes
         wait_timeout: 200
-        group_id: "{{ bastion_sg_out.group_id }}"
+        security_group_ids: "{{ bastion_sg_out.group_id }}"
         region: "{{ region }}"
         vpc_subnet_id: "{{ pubsub1id }}"
         assign_public_ip: yes
