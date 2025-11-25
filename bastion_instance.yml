@@ -10,7 +10,7 @@
       include_vars: vars/output_vars
 
     - name: Create vprofile ec2 key
-      ec2_key:
+      amazon.aws.ec2_key:
         name: vprofile-bastion-key
         region: "{{ region }}"
         state: present
@@ -38,15 +38,15 @@
 
     - name: Launch Bastion Host Instance
       amazon.aws.ec2_instance:
+        name : vprofile-bastion-host
         key_name: vprofile-bastion-key
         instance_type: t2.micro
         image_id: "{{ bastion_ami }}"
+        security_groups: "{{ bastion_sg_out.group_id }}"
         wait: yes
         wait_timeout: 200
-        security_group_ids: "{{ bastion_sg_out.group_id }}"
         region: "{{ region }}"
         vpc_subnet_id: "{{ pubsub1id }}"
-        assign_public_ip: yes
         exact_count: 1
         instance_tags:
           Name: vprofile-bastion-host
