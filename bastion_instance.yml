@@ -24,7 +24,7 @@
       when: keypair_out.changed
     
     - name: create security group for bastion host
-      amazon.aws.ec2_security_group:
+      amazon.aws.ec2_security_group: 
         name: vprofile-bastion-host-sg
         description: Security Group for Vprofile Bastion Host
         vpc_id: "{{ vpcid }}"
@@ -34,7 +34,7 @@
             from_port: 22
             to_port: 22
             cidr_ip: "{{ MYIP }}"
-        register: bastion_sg_out
+      register: bastion_sg_out
 
     - name: Launch Bastion Host Instance
       amazon.aws.ec2_instance:
