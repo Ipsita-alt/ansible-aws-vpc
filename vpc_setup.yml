@@ -164,9 +164,9 @@
         privsub2id: "{{ privsub2_out.subnet.id }}"
         privsub3id: "{{ privsub3_out.subnet.id }}"
         igwid: "{{ igw_out.gateway_id }}"
-        pubRTid: "{{ pubRT_out.route_table_id }}"
+        pubRTid: "{{ pubRT_out.route_table.id }}"
         NATGWid: "{{ NATGW_out.nat_gateway_id }}"
-        privRTid: "{{ privRT_out.route_table_id }}"
+        privRTid: "{{ privRT_out.route_table.id }}"
         cacheable: yes
 
     - name: Create variables file for vpc output
