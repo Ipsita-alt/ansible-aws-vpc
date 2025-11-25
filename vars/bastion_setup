@@ -1,4 +1,6 @@
 bastion_ami: ami-0d176f79571d18a8f
 region: ap-south-1
-MYIP: 223.184.198.75/32
+MYIP: 223.184.203.217/32
+
+
 
