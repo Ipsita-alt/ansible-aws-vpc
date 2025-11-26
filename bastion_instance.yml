@@ -11,9 +11,8 @@
 
     - name: Create vprofile ec2 key
       amazon.aws.ec2_key:
-        name: vprofile-bastion-key
+        name: vprofile-key
         region: "{{ region }}"
-        state: present
       register: keypair_out
 
     - name: Save private key in file bastion-key.pem
