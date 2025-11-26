@@ -11,5 +11,5 @@
   "pubRTid": "rtb-04765092ccbe98a6f",
   "NATGWid": "nat-0ec3b4935b1889e79",
   "privRTid": "rtb-0305ed594d73fd94e",
-  "BastionSGid": "sg-0c3f4e5b6a7d8e9f0"
+  "BastionSGid"
 }
