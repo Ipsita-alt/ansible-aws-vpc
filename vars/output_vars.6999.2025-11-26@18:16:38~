@@ -13,6 +13,3 @@
   "privRTid": "rtb-0305ed594d73fd94e",
   "BastionSGid": "sg-071c8f15a73fbc1c8"
 }
-# BEGIN ANSIBLE MANAGED BLOCK
-{'BastionSGid': 'sg-071c8f15a73fbc1c8'}
-# END ANSIBLE MANAGED BLOCK
