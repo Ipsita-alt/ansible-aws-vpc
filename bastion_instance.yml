@@ -13,14 +13,14 @@
       amazon.aws.ec2_key:
         name: vprofile-key
         region: "{{ region }}"
-      register: keypair_out
+      register: key_out
 
     - name: Save private key in file bastion-key.pem
       copy:
         content: "{{ keypair_out.key.private_key }}"
         dest: "./bastion-key.pem"
         mode: '0600'
-      when: keypair_out.changed
+      when: key_out.changed
     
     - name: create security group for bastion host
       amazon.aws.ec2_security_group: 
