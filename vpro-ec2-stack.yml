@@ -21,4 +21,54 @@
         dest: "./loginkey_vpro.pem"
         mode: '0600'
       when: vprokey_out.changed
+
+    - name: create security group for load balancer and instancee
+      amazon.aws.ec2_security_group: 
+        name: vproELB-sg
+        description: Allow port 80 from anywhereand all the port within sg
+        vpc_id: "{{ vpcid }}"
+        region: "{{ region }}"
+        rules:
+          - proto: tcp
+            from_port: 80
+            to_port: 80
+            cidr_ip: 0.0.0.0/0
+        register: vproELBSG_out
+
+    - name: Create Security Group for Vprofile Stack
+      amazon.aws.ec2_security_group: 
+        name: vproStack-sg
+        Description: Allow port 80 from anywhereand all the port within sg
+        region: "{{ region }}"
+        vpc_id: "{{ vpcid }}"
+        purge_rules: no
+        rules:
+          - proto: tcp
+            from_port: 80
+            to_port: 80
+            group_id: "{{ vproELBSG_out.group_id }}"
+          - proto: tcp
+            from_port: 22
+            to_port: 22
+            group_id: "{{BastionSGid}}"
+
+    - name: Launch Nginx Instance
+      amazon.aws.ec2_instance:
+        name : vprofile-nginx
+        key_name: vprokey
+        instance_type: t2.micro
+        image_id: "{{ nginx_ami }}"
+        security_groups: "{{ bastion_sg_out.group_id }}"
+        region: "{{ region }}"
+        vpc_subnet_id: "{{ pubsub2id }}"
+        exact_count: 1
+        wait: yes
+        wait_timeout: 200
+        tags:
+          Name: vprofile-nginx
+          project: vprofile
+          Owner: devops-team
+      register: nginx_instance_out    
+    
+    - name: Launch Tomcat Instance
        

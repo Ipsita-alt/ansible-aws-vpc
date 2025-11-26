@@ -33,7 +33,7 @@
             from_port: 22
             to_port: 22
             cidr_ip: "{{ MYIP }}"
-      register: bastion_sg_out
+      register: BastionSG_out
 
     - name: Launch Bastion Host Instance
       amazon.aws.ec2_instance:
@@ -41,7 +41,7 @@
         key_name: vprofile-key
         instance_type: t2.micro
         image_id: "{{ bastion_ami }}"
-        security_groups: "{{ bastion_sg_out.group_id }}"
+        security_groups: "{{ BastionSG_out.group_id }}"
         region: "{{ region }}"
         vpc_subnet_id: "{{ pubsub1id }}"
         exact_count: 1
@@ -52,3 +52,10 @@
           project: vprofile
           Owner: devops-team
       register: bastion_instance_out    
+
+    - name: Insert/Update "BastionSGid" in vars/output_vars file
+      blockinfile:
+        path: vars/output_vars
+        backup: yes
+        block:
+          BastionSGid: "{{ BastionSG_out.group_id }}"
