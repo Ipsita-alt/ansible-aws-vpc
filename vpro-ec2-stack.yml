@@ -22,7 +22,7 @@
         mode: '0600'
       when: vprokey_out.changed
 
-    - name: create security group for load balancer and instancee
+    - name: create security group for load balancer
       amazon.aws.ec2_security_group: 
         name: vproELB-sg
         description: Allow port 80 from anywhereand all the port within sg
@@ -33,7 +33,7 @@
             from_port: 80
             to_port: 80
             cidr_ip: 0.0.0.0/0
-        register: vproELBSG_out
+      register: vproELBSG_out
 
     - name: Create Security Group for Vprofile Stack
       amazon.aws.ec2_security_group: 
