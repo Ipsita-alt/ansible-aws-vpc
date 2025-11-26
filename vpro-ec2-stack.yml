@@ -51,4 +51,5 @@
             from_port: 22
             to_port: 22
             source_security_group_id: "{{ BastionSGid }}"
+      register: vproStackSG_out
 
