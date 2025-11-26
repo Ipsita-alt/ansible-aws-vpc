@@ -51,7 +51,18 @@
           - proto: tcp
             from_port: 22
             to_port: 22
-            source_security_group_id: "{{ BastionSGid }}"
+            group_id: "{{ BastionSGid }}"
         register: vproStackSG_out
+
+    - name: Update with Security Groups its own sg id
+      amazon.aws.ec2_security_group:
+        name: vproStack-sg
+        description: Allow port 22 from Bastion and allow port 80 within SG
+        region: "{{ region }}"
+        vpc_id: "{{ vpcid }}"
+        purge_rules: no
+        rules:
+          - proto: all
+            group_id: "{{ vproStackSG_out.group_id }}"
 
 
