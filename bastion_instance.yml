@@ -38,7 +38,7 @@
     - name: Launch Bastion Host Instance
       amazon.aws.ec2_instance:
         name : vprofile-bastion-host
-        key_name: vprofile-bastion-key
+        key_name: vprofile-key
         instance_type: t2.micro
         image_id: "{{ bastion_ami }}"
         security_groups: "{{ bastion_sg_out.group_id }}"
