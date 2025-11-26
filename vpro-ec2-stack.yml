@@ -38,7 +38,7 @@
     - name: Create Security Group for Vprofile Stack
       amazon.aws.ec2_security_group: 
         name: vproStack-sg
-        Description: Allow port 80 from anywhereand all the port within sg
+        description: Allow port 80 from anywhereand all the port within sg
         region: "{{ region }}"
         vpc_id: "{{ vpcid }}"
         purge_rules: no
