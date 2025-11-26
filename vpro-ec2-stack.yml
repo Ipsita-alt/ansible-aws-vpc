@@ -36,9 +36,9 @@
       register: vproELBSG_out
 
     - name: Create Security Group for Vprofile Stack
-      amazon.aws.ec2_security_group: 
+      amazon.aws.ec2_security_group:
         name: vproStack-sg
-        description: Allow port 80 from anywhereand all the port within sg
+        description: Allow port 22 from Bastion and allow port 80 within SG
         region: "{{ region }}"
         vpc_id: "{{ vpcid }}"
         purge_rules: no
@@ -46,11 +46,12 @@
           - proto: tcp
             from_port: 80
             to_port: 80
-            cidr_ip: 0.0.0.0/0
+            group_id: "{{ vproELBSG_out.group_id }}"
 
           - proto: tcp
             from_port: 22
             to_port: 22
             source_security_group_id: "{{ BastionSGid }}"
-      register: vproStackSG_out
+        register: vproStackSG_out
+
 
