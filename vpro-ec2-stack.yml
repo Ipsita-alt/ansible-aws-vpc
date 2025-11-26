@@ -52,23 +52,3 @@
             to_port: 22
             group_id: "{{BastionSGid}}"
 
-    - name: Launch Nginx Instance
-      amazon.aws.ec2_instance:
-        name : vprofile-nginx
-        key_name: vprokey
-        instance_type: t2.micro
-        image_id: "{{ nginx_ami }}"
-        security_groups: "{{ bastion_sg_out.group_id }}"
-        region: "{{ region }}"
-        vpc_subnet_id: "{{ pubsub2id }}"
-        exact_count: 1
-        wait: yes
-        wait_timeout: 200
-        tags:
-          Name: vprofile-nginx
-          project: vprofile
-          Owner: devops-team
-      register: nginx_instance_out    
-    
-    - name: Launch Tomcat Instance
-       
