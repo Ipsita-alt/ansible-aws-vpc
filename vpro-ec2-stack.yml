@@ -2,15 +2,16 @@
   hosts: localhost
   connection: local
   gather_facts: False
+
   tasks:
     - name: Import VPC Variables
       include_vars: vars/vars-output_vars
-    
+
     - name: Import Vprofile Stack Variables
       include_vars: vars/vprostacksetup
 
     - name: Create vprofile ec2 key for vprofile stack
-      ec2_key:
+      amazon.aws.ec2_key:
         name: vprokey
         region: "{{ region }}"
       register: vprokey_out
@@ -23,9 +24,9 @@
       when: vprokey_out.changed
 
     - name: create security group for load balancer
-      amazon.aws.ec2_security_group: 
+      amazon.aws.ec2_security_group:
         name: vproELB-sg
-        description: Allow port 80 from anywhereand all the port within sg
+        description: Allow port 80 from anywhere
         vpc_id: "{{ vpcid }}"
         region: "{{ region }}"
         rules:
@@ -38,7 +39,7 @@
     - name: Create Security Group for Vprofile Stack
       amazon.aws.ec2_security_group:
         name: vproStack-sg
-        description: Allow port 22 from Bastion and allow port 80 within SG
+        description: Allow port 22 from Bastion and port 80 within SG
         region: "{{ region }}"
         vpc_id: "{{ vpcid }}"
         purge_rules: no
@@ -47,18 +48,16 @@
             from_port: 80
             to_port: 80
             group_id: "{{ vproELBSG_out.group_id }}"
-
           - proto: tcp
             from_port: 22
             to_port: 22
             group_id: "{{ BastionSGid }}"
       register: vproStackSG_out
 
-
     - name: Update with Security Groups its own sg id
       amazon.aws.ec2_security_group:
         name: vproStack-sg
-        description: Allow port 22 from Bastion and allow port 80 within SG
+        description: Allow all SG internal communication
         region: "{{ region }}"
         vpc_id: "{{ vpcid }}"
         purge_rules: no
@@ -111,11 +110,9 @@
         image_id: "{{ memcache_ami }}"
         wait: yes
         wait_timeout: 300
-
         network:
           vpc_subnet_id: "{{ privsub1id }}"
           security_group_id: "{{ vproStackSG_out.group_id }}"
-
         tags:
           Name: "mc01"
           Project: "Vprofile"
@@ -131,18 +128,14 @@
         image_id: "{{ rmq_ami }}"
         wait: yes
         wait_timeout: 300
-
         network:
           vpc_subnet_id: "{{ privsub1id }}"
           security_group_id: "{{ vproStackSG_out.group_id }}"
-
         tags:
           Name: "rmq01"
           Project: "Vprofile"
           Owner: "DevOps Team"
-
       register: rmq01_out
-
 
     - name: Creating Mysql db01
       amazon.aws.ec2_instance:
@@ -153,25 +146,14 @@
         image_id: "{{ mysql_ami }}"
         wait: yes
         wait_timeout: 300
-
         network:
           vpc_subnet_id: "{{ privsub1id }}"
           security_group_id: "{{ vproStackSG_out.group_id }}"
-
         tags:
           Name: "db01"
           Project: "Vprofile"
           Owner: "DevOps Team"
-
       register: db01_out
 
     - debug:
         var: db01_out
-
-
-
-      
-          
-
-
-
